@@ -1,5 +1,6 @@
-import axios from "axios";
 import { FormEvent, useState } from "react";
+import axios from "axios";
+import Form from "../components/Form";
 import { Book } from "../@types/Book";
 
 export default function SearchPage() {
@@ -27,27 +28,12 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col items-center mt-20">
-      <div className="w-full max-w-7xl font-medium">
-        <form
+      <div className="w-full max-w-7xl px-6">
+        <Form
           onSubmit={searchBooksByName}
-          className="flex items-center gap-3 my-8"
-          action=""
-        >
-          <input
-            type="text"
-            placeholder="Enter book name"
-            className="grow p-2 border outline-none rounded"
-            value={bookName}
-            onChange={(e) => setBookName(e.target.value)}
-          />
-
-          <button
-            onClick={searchBooksByName}
-            className="rounded p-2 bg-blue-500 text-white font-medium"
-          >
-            Search
-          </button>
-        </form>
+          value={bookName}
+          onChange={(event) => setBookName(event.target.value)}
+        />
         <ul>
           {books.length > 0 && (
             <ul className="flex flex-col gap-20">
@@ -64,7 +50,12 @@ export default function SearchPage() {
                   <div className="flex flex-col gap-2">
                     <h2>Título: {book.volumeInfo.title}</h2>
                     {book.volumeInfo.authors && (
-                      <p>Autor: {book.volumeInfo.authors.join(", ")}</p>
+                      <p>
+                        Autor:
+                        {book.volumeInfo.authors.map((item) => (
+                          <span key={item}>{item}</span>
+                        ))}
+                      </p>
                     )}
                     {book.volumeInfo.categories && (
                       <p>Gênero: {book.volumeInfo.categories.join(", ")}</p>
